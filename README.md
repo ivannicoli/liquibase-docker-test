@@ -32,10 +32,15 @@ Antes de executar comandos do Liquibase, é necessário instalar o cliente Liqui
 **Ubuntu/Debian:**
 ```bash
 # Baixar e instalar Liquibase
-wget https://github.com/liquibase/liquibase/releases/download/v4.24.0/liquibase-4.24.0.tar.gz
-tar -xzf liquibase-4.24.0.tar.gz
-sudo mv liquibase /opt/
-sudo ln -s /opt/liquibase/liquibase /usr/local/bin/liquibase
+```bash
+# Adicionar repositório oficial do Liquibase
+wget -O- https://repo.liquibase.com/liquibase.asc | sudo apt-key add -
+echo "deb https://repo.liquibase.com stable main" | sudo tee /etc/apt/sources.list.d/liquibase.list
+
+# Atualizar lista de pacotes e instalar
+sudo apt update
+sudo apt install liquibase
+```
 ```
 
 **macOS:**
