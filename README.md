@@ -1,59 +1,77 @@
-# PostgreSQL with Liquibase Setup
+# Configuração PostgreSQL com Liquibase
 
-This repository contains a Docker setup for PostgreSQL and Liquibase for database migrations.
+Este repositório contém uma configuração Docker para PostgreSQL e Liquibase para migrações de banco de dados.
 
-## Prerequisites
+## Pré-requisitos
 
-- Docker and Docker Compose installed
-- Liquibase CLI installed (for direct commands)
+- Docker e Docker Compose instalados
+- PostgreSQL instalado no sistema
+- Liquibase CLI instalado (para comandos diretos)
 
-## Getting Started
+### Instalação do PostgreSQL
 
-### 1. Start the PostgreSQL Container
+Antes de executar o `run.sh`, é necessário instalar o cliente PostgreSQL no sistema (não um banco completo):
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+```
+
+**macOS:**
+```bash
+brew install postgresql
+```
+
+*Nota: Estamos instalando apenas o cliente PostgreSQL, não um servidor de banco de dados completo. O banco será executado via Docker.*
+
+## Começando
+
+### 1. Iniciar o Container PostgreSQL
 
 ```bash
 docker-compose up -d
 ```
 
-This will start a PostgreSQL container with the following credentials:
-- **Username**: postgres
-- **Password**: postgres
-- **Database**: postgres
-- **Port**: 5432
+Isso iniciará um container PostgreSQL com as seguintes credenciais:
+- **Usuário**: postgres
+- **Senha**: postgres
+- **Banco de dados**: postgres
+- **Porta**: 5432
 
-### 2. Connect to PostgreSQL
+### 2. Conectar ao PostgreSQL
 
-You can connect to the PostgreSQL database using the provided script:
+Você pode conectar ao banco de dados PostgreSQL usando o script fornecido:
 
 ```bash
 ./run.sh
 ```
 
-## Using Liquibase
+## Usando Liquibase
 
-Liquibase is a database schema change management tool that allows you to track, version, and deploy database changes.
+Liquibase é uma ferramenta de gerenciamento de mudanças de esquema de banco de dados que permite rastrear, versionar e implantar mudanças no banco de dados.
 
-### Liquibase Structure
+### Estrutura do Liquibase
 
-- `liquibase/changelog.xml`: Master changelog file that includes all SQL scripts
-- `liquibase/liquibase.properties`: Configuration file with database connection details
-- `liquibase/sql/`: Directory containing SQL migration scripts
+- `liquibase/changelog.xml`: Arquivo de changelog mestre que inclui todos os scripts SQL
+- `liquibase/liquibase.properties`: Arquivo de configuração com detalhes de conexão do banco de dados
+- `liquibase/sql/`: Diretório contendo scripts de migração SQL
 
-### Liquibase Commands
+### Comandos Liquibase
 
-Here are some common Liquibase commands you can use:
+Aqui estão alguns comandos Liquibase comuns que você pode usar:
 
-#### Update Database
+#### Atualizar Banco de Dados
 
-Apply all pending changesets to the database:
+Aplicar todos os changesets pendentes ao banco de dados:
 
 ```bash
 liquibase update
 ```
 
-#### Generate Update SQL
+#### Gerar SQL de Atualização
 
-Generate SQL for pending changesets without applying them:
+Gerar SQL para changesets pendentes sem aplicá-los:
 
 ```bash
 liquibase update-sql
@@ -61,13 +79,13 @@ liquibase update-sql
 
 #### Rollback
 
-Rollback the most recent changeset:
+Fazer rollback do changeset mais recente:
 
 ```bash
 liquibase rollback-count 1
 ```
 
-Rollback to a specific tag:
+Fazer rollback para uma tag específica:
 
 ```bash
 liquibase rollback TAG_NAME
@@ -75,68 +93,68 @@ liquibase rollback TAG_NAME
 
 #### Status
 
-Check the status of changesets:
+Verificar o status dos changesets:
 
 ```bash
 liquibase status
 ```
 
-#### Validate
+#### Validar
 
-Validate the changelog for errors:
+Validar o changelog para erros:
 
 ```bash
 liquibase validate
 ```
 
-#### History
+#### Histórico
 
-View the history of applied changesets:
+Visualizar o histórico de changesets aplicados:
 
 ```bash
 liquibase history
 ```
 
-### Running Liquibase Commands
+### Executando Comandos Liquibase
 
-To run Liquibase commands, navigate to the liquibase directory and run:
+Para executar comandos Liquibase, navegue até o diretório liquibase e execute:
 
 ```bash
 cd liquibase
-liquibase --defaultsFile=liquibase.properties <command>
+liquibase --defaultsFile=liquibase.properties <comando>
 ```
 
-For example:
+Por exemplo:
 
 ```bash
 cd liquibase
 liquibase --defaultsFile=liquibase.properties update
 ```
 
-## Sample Database Schema
+## Esquema de Banco de Dados de Exemplo
 
-The Liquibase changesets will create the following tables:
+Os changesets do Liquibase criarão as seguintes tabelas:
 
-1. `users`: User information
-2. `products`: Product catalog
-3. `orders`: Customer orders
-4. `order_items`: Items within orders
+1. `users`: Informações do usuário
+2. `products`: Catálogo de produtos
+3. `orders`: Pedidos do cliente
+4. `order_items`: Itens dentro dos pedidos
 
-Each script includes rollback instructions for easy reversal of changes if needed.
+Cada script inclui instruções de rollback para fácil reversão de mudanças se necessário.
 
-## Troubleshooting
+## Solução de Problemas
 
-### Duplicate Changeset Identifiers
+### Identificadores de Changeset Duplicados
 
-If you encounter an error like:
+Se você encontrar um erro como:
 ```
 Validation Failed: 5 changesets had duplicate identifiers
 ```
 
-This means that your changeset IDs are not unique across files. In our setup, each changeset has a unique identifier in the format `author:id`, for example:
+Isso significa que seus IDs de changeset não são únicos entre os arquivos. Em nossa configuração, cada changeset tem um identificador único no formato `autor:id`, por exemplo:
 
 ```
 --changeset testuser:01-create-users-table
 ```
 
-Make sure each changeset has a unique ID across all your SQL files.
+Certifique-se de que cada changeset tenha um ID único em todos os seus arquivos SQL.
