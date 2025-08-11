@@ -25,6 +25,32 @@ brew install postgresql
 
 *Nota: Estamos instalando apenas o cliente PostgreSQL, não um servidor de banco de dados completo. O banco será executado via Docker.*
 
+### Instalação do Liquibase CLI
+
+Antes de executar comandos do Liquibase, é necessário instalar o cliente Liquibase:
+
+**Ubuntu/Debian:**
+```bash
+# Baixar e instalar Liquibase
+wget https://github.com/liquibase/liquibase/releases/download/v4.24.0/liquibase-4.24.0.tar.gz
+tar -xzf liquibase-4.24.0.tar.gz
+sudo mv liquibase /opt/
+sudo ln -s /opt/liquibase/liquibase /usr/local/bin/liquibase
+```
+
+**macOS:**
+```bash
+brew install liquibase
+```
+
+**Windows:**
+```bash
+# Usar Chocolatey
+choco install liquibase
+```
+
+*Nota: Verifique a versão mais recente disponível no [site oficial do Liquibase](https://www.liquibase.org/download).*
+
 ## Começando
 
 ### 1. Iniciar o Container PostgreSQL
@@ -158,3 +184,4 @@ Isso significa que seus IDs de changeset não são únicos entre os arquivos. Em
 ```
 
 Certifique-se de que cada changeset tenha um ID único em todos os seus arquivos SQL.
+
