@@ -41,7 +41,6 @@ echo "deb https://repo.liquibase.com stable main" | sudo tee /etc/apt/sources.li
 sudo apt update
 sudo apt install liquibase
 ```
-```
 
 **macOS:**
 ```bash
