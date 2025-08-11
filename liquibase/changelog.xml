@@ -7,9 +7,28 @@
 
     <!-- Include SQL changesets -->
     <include file="sql/01-create-users-table.sql" relativeToChangelogFile="true"/>
+    <changeSet id="tag-01-v1.0" author="testuser">
+        <tagDatabase tag="v1.0"/>
+    </changeSet>
+    
     <include file="sql/02-create-products-table.sql" relativeToChangelogFile="true"/>
+    <changeSet id="tag-02-v1.1" author="testuser">
+        <tagDatabase tag="v1.1"/>
+    </changeSet>
+    
     <include file="sql/03-create-orders-table.sql" relativeToChangelogFile="true"/>
+    <changeSet id="tag-03-v1.2" author="testuser">
+        <tagDatabase tag="v1.2"/>
+    </changeSet>
+    
     <include file="sql/04-add-foreign-keys.sql" relativeToChangelogFile="true"/>
+    <changeSet id="tag-04-v1.3" author="testuser">
+        <tagDatabase tag="v1.3"/>
+    </changeSet>
+    
     <include file="sql/05-insert-sample-data.sql" relativeToChangelogFile="true"/>
+    <changeSet id="tag-05-v1.4" author="testuser">
+        <tagDatabase tag="v1.4"/>
+    </changeSet>
 
 </databaseChangeLog>

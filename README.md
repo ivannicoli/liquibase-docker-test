@@ -161,6 +161,48 @@ cd liquibase
 liquibase --defaultsFile=liquibase.properties update
 ```
 
+### Trabalhando com Tags de Versão
+
+O projeto utiliza tags para marcar versões específicas do banco de dados. As tags disponíveis são:
+- v1.0: Após criação da tabela de usuários
+- v1.1: Após criação da tabela de produtos
+- v1.2: Após criação da tabela de pedidos
+- v1.3: Após adição das chaves estrangeiras
+- v1.4: Após inserção dos dados de exemplo
+
+#### Listando Tags Disponíveis
+
+Para listar todas as tags disponíveis no banco de dados:
+
+```bash
+cd liquibase
+liquibase --defaultsFile=liquibase.properties tag-exists v1.0
+```
+
+Repita o comando para cada tag (v1.0, v1.1, v1.2, v1.3, v1.4) para verificar quais estão aplicadas.
+
+#### Atualizando até uma Tag Específica
+
+Para atualizar o banco de dados até uma tag específica:
+
+```bash
+cd liquibase
+liquibase --defaultsFile=liquibase.properties update-to-tag v1.2
+```
+
+Este comando aplicará todos os changesets até a tag v1.2 (inclusive).
+
+#### Rollback para uma Tag Específica
+
+Para reverter o banco de dados para uma tag específica:
+
+```bash
+cd liquibase
+liquibase --defaultsFile=liquibase.properties rollback v1.1
+```
+
+Este comando reverterá todas as alterações feitas após a tag v1.1, retornando o banco ao estado marcado por essa tag.
+
 ## Esquema de Banco de Dados de Exemplo
 
 Os changesets do Liquibase criarão as seguintes tabelas:
@@ -188,4 +230,3 @@ Isso significa que seus IDs de changeset não são únicos entre os arquivos. Em
 ```
 
 Certifique-se de que cada changeset tenha um ID único em todos os seus arquivos SQL.
-
