@@ -214,6 +214,68 @@ Os changesets do Liquibase criarão as seguintes tabelas:
 
 Cada script inclui instruções de rollback para fácil reversão de mudanças se necessário.
 
+### Modelo de Dados
+
+O diagrama abaixo mostra o modelo de dados e os relacionamentos entre as tabelas:
+
+```mermaid
+erDiagram
+    USERS {
+        int id PK
+        varchar username
+        varchar email
+        varchar password_hash
+        varchar first_name
+        varchar last_name
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    PRODUCTS {
+        int id PK
+        varchar name
+        text description
+        decimal price
+        varchar sku
+        int stock_quantity
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    ORDERS {
+        int id PK
+        int user_id FK
+        timestamp order_date
+        varchar status
+        decimal total_amount
+        text shipping_address
+        text billing_address
+        varchar payment_method
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    ORDER_ITEMS {
+        int id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        decimal unit_price
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    USERS ||--o{ ORDERS : "faz"
+    ORDERS ||--o{ ORDER_ITEMS : "contém"
+    PRODUCTS ||--o{ ORDER_ITEMS : "está em"
+```
+
+O diagrama mostra os seguintes relacionamentos:
+- Um usuário pode fazer vários pedidos (1:N)
+- Um pedido pode conter vários itens (1:N)
+- Um produto pode estar em vários itens de pedido (1:N)
+- Um item de pedido pertence a um pedido e refere-se a um produto (N:1)
+
 ## Solução de Problemas
 
 ### Identificadores de Changeset Duplicados
